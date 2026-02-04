@@ -107,6 +107,12 @@
         const mainImage = document.getElementById('mainImage');
         const userNote = document.getElementById('userNote');
 
+        // Controlla se c'è un'immagine salvata in localStorage all'avvio
+        const savedImage = localStorage.getItem('savedImage');
+        if(savedImage) {
+            mainImage.src = savedImage;
+        }
+
         // Cambia immagine al caricamento
         imageUpload.addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -114,6 +120,7 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     mainImage.src = e.target.result;
+                    // Salva l'immagine in localStorage
                     localStorage.setItem('savedImage', e.target.result);
                 }
                 reader.readAsDataURL(file);
@@ -122,5 +129,6 @@
 
         // Il textarea permette già di modificare il testo, quindi non serve altro
     </script>
+
 </body>
 </html>
