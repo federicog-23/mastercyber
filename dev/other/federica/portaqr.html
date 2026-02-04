@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federico - Nota Sempre Visibile</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #be89fe, #002fff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+
+        .img-container {
+            position: relative;
+            display: inline-block;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        .img-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255,255,255,0.6);
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 25px;
+            transition: transform 0.4s;
+        }
+
+        /* Nota sempre visibile sotto la foto */
+        .nota {
+            margin-top: 20px;
+            background: rgba(255,255,255,0.95);
+            color: #1f2937;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: 500;
+            font-size: 1.1em;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            max-width: 600px;
+            text-align: center;
+            user-select: none;
+            position: relative;
+        }
+
+        .nota::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        body, .img-container, .nota, h1 {
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <h1>❤️</h1>
+    <div class="img-container">
+        <img src="foto.jpeg" alt="Foto spettacolare">
+    </div>
+    <div class="nota">
+        Questa nota è sempre visibile e non modificabile dall’utente!
+    </div>
+</body>
+</html>
