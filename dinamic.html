@@ -114,6 +114,7 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     mainImage.src = e.target.result;
+                    localStorage.setItem('savedImage', e.target.result);
                 }
                 reader.readAsDataURL(file);
             }
