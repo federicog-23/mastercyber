@@ -137,7 +137,7 @@
 
         // Gestione emoji
         mainEmoji.addEventListener('blur', function () {
-            const value = [...mainEmoji.textContent.trim()|| '❤️';
+            const value = mainEmoji.textContent.trim()|| '❤️';
             mainEmoji.textContent = value;
             localStorage.setItem('savedEmoji', value);
         });
