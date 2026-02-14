@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Federico - Nota Modificabile</title>
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -22,6 +23,11 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             margin-bottom: 40px;
             font-size: 2.5em;
+            cursor: pointer;
+        }
+
+        h1:focus {
+            outline: none;
         }
 
         .img-container {
@@ -44,7 +50,6 @@
             display: block;
             width: 100%;
             border-radius: 25px;
-            transition: transform 0.4s;
         }
 
         input[type="file"] {
@@ -64,22 +69,7 @@
             resize: none;
         }
 
-        /* Nota modificabile */
-        .nota {
-            margin-top: 20px;
-            background: rgba(255,255,255,0.95);
-            color: #1f2937;
-            padding: 15px 25px;
-            border-radius: 15px;
-            font-weight: 500;
-            font-size: 1.1em;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            max-width: 600px;
-            text-align: center;
-            position: relative;
-        }
-
-        body, .img-container, .nota, h1, textarea, input[type="file"] {
+        body, .img-container, h1, textarea, input[type="file"] {
             animation: fadeInUp 1s ease forwards;
         }
 
@@ -89,31 +79,25 @@
         }
     </style>
 </head>
-<body>
-    <h1 id="mainEmoji">❤️</h1>
 
-    <input 
-        type="text" 
-        id="emojiInput" 
-        maxlength="2" 
-        placeholder="Inserisci emoji"
-        style="margin-bottom: 20px; font-size: 1.2em; text-align: center;"
-    >
+<body>
+
+    <!-- Emoji modificabile -->
+    <h1 id="mainEmoji" contenteditable="true">❤️</h1>
 
     <div class="img-container">
         <img src="foto.jpeg" alt="Foto spettacolare" id="mainImage">
     </div>
 
-    <!-- Campo per caricare una nuova foto -->
     <input type="file" accept="image/*" id="imageUpload">
 
-    <!-- Nota modificabile -->
     <textarea id="userNote">Buono il messicano eh...lascialo lì frenk tranquillo</textarea>
 
     <script>
         const imageUpload = document.getElementById('imageUpload');
         const mainImage = document.getElementById('mainImage');
         const userNote = document.getElementById('userNote');
+        const mainEmoji = document.getElementById('mainEmoji');
 
         // Recupera immagine salvata
         const savedImage = localStorage.getItem('savedImage');
@@ -125,6 +109,12 @@
         const savedNote = localStorage.getItem('savedNote');
         if (savedNote) {
             userNote.value = savedNote;
+        }
+
+        // Recupera emoji salvata
+        const savedEmoji = localStorage.getItem('savedEmoji');
+        if (savedEmoji) {
+            mainEmoji.textContent = savedEmoji;
         }
 
         // Cambia immagine e salva
@@ -140,29 +130,27 @@
             }
         });
 
-        const mainEmoji = document.getElementById('mainEmoji');
-        const emojiInput = document.getElementById('emojiInput');
-        
-        // Recupera emoji salvata
-        const savedEmoji = localStorage.getItem('savedEmoji');
-        if (savedEmoji) {
-            mainEmoji.textContent = savedEmoji;
-            emojiInput.value = savedEmoji;
-        }
-        
-        // Cambia emoji e salva
-        emojiInput.addEventListener('input', function () {
-            mainEmoji.textContent = emojiInput.value;
-            localStorage.setItem('savedEmoji', emojiInput.value);
-        });
-
-
-        // Salva la nota mentre scrivi
+        // Salva nota mentre scrivi
         userNote.addEventListener('input', function () {
             localStorage.setItem('savedNote', userNote.value);
         });
-    </script>
 
+        // Gestione emoji
+        mainEmoji.addEventListener('blur', function () {
+            const value = [...mainEmoji.textContent.trim()][0] || '❤️';
+            mainEmoji.textContent = value;
+            localStorage.setItem('savedEmoji', value);
+        });
+
+        // Impedisce invio o a capo
+        mainEmoji.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                mainEmoji.blur();
+            }
+        });
+
+    </script>
 
 </body>
 </html>
