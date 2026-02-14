@@ -132,6 +132,23 @@
             }
         });
 
+        const mainEmoji = document.getElementById('mainEmoji');
+        const emojiInput = document.getElementById('emojiInput');
+        
+        // Recupera emoji salvata
+        const savedEmoji = localStorage.getItem('savedEmoji');
+        if (savedEmoji) {
+            mainEmoji.textContent = savedEmoji;
+            emojiInput.value = savedEmoji;
+        }
+        
+        // Cambia emoji e salva
+        emojiInput.addEventListener('input', function () {
+            mainEmoji.textContent = emojiInput.value;
+            localStorage.setItem('savedEmoji', emojiInput.value);
+        });
+
+
         // Salva la nota mentre scrivi
         userNote.addEventListener('input', function () {
             localStorage.setItem('savedNote', userNote.value);
