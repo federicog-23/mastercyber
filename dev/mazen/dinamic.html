@@ -98,6 +98,7 @@
         const mainImage = document.getElementById('mainImage');
         const userNote = document.getElementById('userNote');
         const mainEmoji = document.getElementById('mainEmoji');
+        const MAX_LENGTH = 10; // massimo 10 caratteri/emoji
 
         // Recupera immagine salvata
         const savedImage = localStorage.getItem('savedImage');
@@ -135,21 +136,33 @@
             localStorage.setItem('savedNote', userNote.value);
         });
 
-        // Gestione emoji
-        mainEmoji.addEventListener('blur', function () {
-            const value = mainEmoji.textContent.trim()|| '❤️';
-            mainEmoji.textContent = value;
-            localStorage.setItem('savedEmoji', value);
+        // Gestione emoji con massimo 10 caratteri/emoji
+        mainEmoji.addEventListener('input', function () {
+            // Spread operator per gestire correttamente emoji complesse
+            let chars = [...mainEmoji.textContent.trim()];
+            if (chars.length > MAX_LENGTH) {
+                chars = chars.slice(0, MAX_LENGTH);
+                mainEmoji.textContent = chars.join('');
+
+                // Posiziona cursore alla fine
+                const range = document.createRange();
+                const sel = window.getSelection();
+                range.selectNodeContents(mainEmoji);
+                range.collapse(false);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+
+            localStorage.setItem('savedEmoji', mainEmoji.textContent);
         });
 
-        // Impedisce invio o a capo
+        // Blocca invio / a capo
         mainEmoji.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 mainEmoji.blur();
             }
         });
-
     </script>
 
 </body>
