@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Federico - Nota Modificabile</title>
+    <title>Federico - Nota</title>
 
     <style>
         body {
@@ -23,11 +23,6 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             margin-bottom: 40px;
             font-size: 2.5em;
-            cursor: pointer;
-        }
-
-        h1:focus {
-            outline: none;
         }
 
         .img-container {
@@ -52,24 +47,18 @@
             border-radius: 25px;
         }
 
-        input[type="file"] {
-            margin-top: 20px;
-            font-size: 1em;
-        }
-
-        textarea {
+        .note {
             margin-top: 20px;
             width: 100%;
             max-width: 600px;
-            height: 80px;
-            padding: 10px;
+            padding: 15px;
             font-size: 1.1em;
             border-radius: 15px;
-            border: 1px solid #ccc;
-            resize: none;
+            background-color: white;
+            line-height: 1.6;
         }
 
-        body, .img-container, h1, textarea, input[type="file"] {
+        body, .img-container, h1, .note {
             animation: fadeInUp 1s ease forwards;
         }
 
@@ -82,90 +71,19 @@
 
 <body>
 
-    <!-- Emoji modificabile -->
-    <h1 id="mainEmoji" contenteditable="true">❤️</h1>
+    <h1>❤️</h1>
 
     <div class="img-container">
-        <img src="foto.jpeg" alt="Foto da inserire" id="mainImage">
+        <img src="foto.jpeg" alt="Foto">
     </div>
 
-    <input type="file" accept="image/*" id="imageUpload">
-
-    <textarea id="userNote">“Molte persone entreranno ed usciranno dalla tua vita, ma soltanto i veri amici lasceranno impronte nel tuo cuore.”
-Può sembrare una frase banale, ma con il passare degli anni, e soprattutto con la distanza di questi ultimi due, ho capito quanto sia difficile mantenere vive le amicizie, e quando si tenga davvero a un legame quando si sceglie di non lasciarlo andare.
-La vostra presenza qui non passerà mai inosservata, ed è anche per questo, e per tutto ciò che rappresenta per me, vi ringrazio.</textarea>
-
-    <script>
-        const imageUpload = document.getElementById('imageUpload');
-        const mainImage = document.getElementById('mainImage');
-        const userNote = document.getElementById('userNote');
-        const mainEmoji = document.getElementById('mainEmoji');
-        const MAX_LENGTH = 10; // massimo 10 caratteri/emoji
-
-        // Recupera immagine salvata
-        const savedImage = localStorage.getItem('savedImage');
-        if (savedImage) {
-            mainImage.src = savedImage;
-        }
-
-        // Recupera nota salvata
-        const savedNote = localStorage.getItem('savedNote');
-        if (savedNote) {
-            userNote.value = savedNote;
-        }
-
-        // Recupera emoji salvata
-        const savedEmoji = localStorage.getItem('savedEmoji');
-        if (savedEmoji) {
-            mainEmoji.textContent = savedEmoji;
-        }
-
-        // Cambia immagine e salva
-        imageUpload.addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    mainImage.src = e.target.result;
-                    localStorage.setItem('savedImage', e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Salva nota mentre scrivi
-        userNote.addEventListener('input', function () {
-            localStorage.setItem('savedNote', userNote.value);
-        });
-
-        // Gestione emoji con massimo 10 caratteri/emoji
-        mainEmoji.addEventListener('input', function () {
-            // Spread operator per gestire correttamente emoji complesse
-            let chars = [...mainEmoji.textContent.trim()];
-            if (chars.length > MAX_LENGTH) {
-                chars = chars.slice(0, MAX_LENGTH);
-                mainEmoji.textContent = chars.join('');
-
-                // Posiziona cursore alla fine
-                const range = document.createRange();
-                const sel = window.getSelection();
-                range.selectNodeContents(mainEmoji);
-                range.collapse(false);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }
-
-            localStorage.setItem('savedEmoji', mainEmoji.textContent);
-        });
-
-        // Blocca invio / a capo
-        mainEmoji.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                mainEmoji.blur();
-            }
-        });
-    </script>
+    <div class="note">
+        “Molte persone entreranno e usciranno dalla tua vita, ma soltanto i veri amici lasceranno impronte nel tuo cuore.”
+        <br><br>
+        Può sembrare una frase banale, ma con il passare degli anni, e soprattutto con la distanza di questi ultimi due, ho capito quanto sia difficile mantenere vive le amicizie e quanto si tenga davvero a un legame quando si sceglie di non lasciarlo andare.
+        <br><br>
+        La vostra presenza qui non passerà mai inosservata, ed è anche per questo, e per tutto ciò che rappresentate per me, che vi ringrazio.
+    </div>
 
 </body>
 </html>
